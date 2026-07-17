@@ -1,0 +1,39 @@
+services:
+  normalizer:
+    build: ./normalizer-rust
+    environment:
+      NORMALIZER_ADDR: 0.0.0.0:8090
+    ports:
+      - "8090:8090"
+
+  detector:
+    build: ./detector-python
+    environment:
+      THREATMESH_LLM: mock
+    ports:
+      - "8000:8000"
+
+  gateway:
+    build: ./gateway-go
+    environment:
+      THREATMESH_HTTP_ADDR: ":8080"
+      THREATMESH_NORMALIZER_URL: http://normalizer:8090
+      THREATMESH_DETECTOR_URL: http://detector:8000
+      THREATMESH_UDP_ADDR: ":5514"
+      THREATMESH_TCP_ADDR: ":5515"
+    ports:
+      - "8080:8080"
+      - "5514:5514/udp"
+      - "5515:5515"
+    depends_on:
+      - normalizer
+      - detector
+
+  siem:
+    build: ./frontend-ts
+    environment:
+      NEXT_PUBLIC_GATEWAY_URL: http://localhost:8080
+    ports:
+      - "3000:3000"
+    depends_on:
+      - gateway

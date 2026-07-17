@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.pytest_cache/
+.ruff_cache/
+
+# Go
+/gateway-go/threatmesh-gateway
+*.test
+
+# Rust
+/normalizer-rust/target/
+
+# Node / Next.js
+node_modules/
+/frontend-ts/.next/
+/frontend-ts/out/
+
+# env / editors / OS
+.env
+.vscode/
+.idea/
+.DS_Store

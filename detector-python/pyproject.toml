@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "threatmesh-detector"
+version = "0.1.0"
+description = "threatmesh anomaly detector: from-scratch Isolation Forest over log features + AI incident agent"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+dependencies = []  # Isolation Forest + agent are dependency-free and run offline
+
+[project.optional-dependencies]
+server = ["fastapi>=0.110", "uvicorn[standard]>=0.29"]
+openai = ["openai>=1.30"]
+dev = ["pytest>=8.0", "ruff>=0.5"]
+
+[project.scripts]
+threatmesh-detector = "threatmesh_detector.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["threatmesh_detector*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
